@@ -53,3 +53,22 @@ body.album {
 .song-item-duration {
   width: 5%;
 }
+
+@media (max-width: 640px) and (min-width: 320px) {
+  .album-view-details {
+    text-align: center;
+  }
+
+  .album-view-title {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 1024px) and (min-width:320px) {
+  .album-view-song-list {
+    position:relative;
+    top: 1rem;
+    width: 80%;
+    margin: auto;
+  }
+}
