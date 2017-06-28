@@ -26,4 +26,16 @@ var albumMarconi = {
     { title: 'Can you hear me now?', duration: '3:14' },
     { title: 'Wrong phone number', duration: '2:15'}
   ]
+};
+
+var createSongRow = function(songNumber, songName, songLength) {
+  var template =
+      '<tr class="album-view-song-item">'
+    + '  <td class="song-item-number">' + songNumber + '</td>'
+    + '  <td class="song-item-title">' + songName + '</td>'
+    + '  <td class="song-item-duration">' + songLength + '</td>'
+    + '</tr>'
+    ;
+
+  return template;
 }
