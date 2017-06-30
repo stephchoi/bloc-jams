@@ -59,12 +59,19 @@ var setCurrentAlbum = function(album) {
 };
 
 var findParentByClassName = function(element, targetClass) {
-  if (element) {
+  if (element && element.parentElement) {
     var currentParent = element.parentElement;
     while (currentParent.className !== targetClass && currentParent.className !== null) {
       currentParent = currentParent.parentElement;
     }
-    return currentParent;
+    if (currentParent === null) {
+      console.log("No parent found with that class name.");
+    } else {
+      return currentParent;
+    }
+
+  } else if (element && element.parentElement !== false) {
+    console.log("No parent found.");
   }
 };
 
@@ -120,7 +127,7 @@ window.onload = function() {
       songItem.innerHTML = playButtonTemplate;
       }
     }
-});
+  });
 
 
   for (var i=0; i < songRows.length; i++) {
