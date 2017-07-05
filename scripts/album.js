@@ -37,7 +37,30 @@ var createSongRow = function(songNumber, songName, songLength) {
     + '</tr>'
     ;
 
-  return $(template);
+  var $row = $(template);
+
+  var onHover = function(event) {
+    var songNumberCell = $(this).find('.song-item-number');
+    var songNumber = songNumberCell.attr('data-song-number');
+
+    if (songNumber !== currentlyPlayingSong) {
+      songNumberCell.html(playButtonTemplate);
+    }
+  };
+
+  var offHover = function(event) {
+    var songNumberCell = $(this).find('.song-item-number');
+    var songNumber = songNumberCell.attr('data-song-number');
+
+    if (songNumber !== currentlyPlayingSong) {
+      songNumberCell.html(songNumber);
+    }
+  };
+
+  $row.find('.song-item-number').click(clickHandler);
+  $row.hover(onHover, offHover);
+
+  return $row;
 };
 
 var setCurrentAlbum = function(album) {
@@ -112,7 +135,7 @@ var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
 var currentlyPlayingSong = null;
 
-window.onload = function() {
+$(window).load(function() {
   setCurrentAlbum(albumPicasso);
 
   songListContainer.addEventListener('mouseover', function(event) {
