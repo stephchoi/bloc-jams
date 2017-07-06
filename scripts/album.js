@@ -60,15 +60,14 @@ var createSongRow = function(songNumber, songName, songLength) {
   var clickHandler = function(event) {
     var songNumber = $(this).attr('data-song-number');
 
-    if(currentlyPlayingSong === null) {
-      $(this).html(pauseButtonTemplate);
-      currentlyPlayingSong = songNumber;
-    } else if (currentlyPlayingSong === songNumber) {
+    if(currentlyPlayingSong !== null) {
+      var currentlyPlayingCell = $('[data-song-number="' + currentlyPlayingSong + '"]');
+      currentlyPlayingCell.html(currentlyPlayingSong);
+    }
+    if (currentlyPlayingSong === songNumber) {
       $(this).html(playButtonTemplate);
       currentlyPlayingSong = null;
     } else if (currentlyPlayingSong !== songNumber) {
-      var currentlyPlayingCell = $('[data-song-number="' + currentlyPlayingSong + '"]');
-      currentlyPlayingCell.html(currentlyPlayingSong);
       $(this).html(pauseButtonTemplate);
       currentlyPlayingSong = songNumber;
     }
