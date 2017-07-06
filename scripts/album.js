@@ -95,7 +95,25 @@ var nextSong = function() {
   var nextSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
   nextSongNumberCell.html(pauseButtonTemplate);
   lastSongNumberCell.html(lastSongNumber);
+};
 
+var previousSong = function() {
+  var songIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+  songIndex--;
+
+  if (songIndex < 0) {
+    songIndex = currentAlbum.songs.length - 1;
+  }
+
+  var lastSongNumber = currentlyPlayingSongNumber;
+  currentlyPlayingSongNumber = songIndex + 1;
+  currentSongFromAlbum = currentAlbum.songs[songIndex];
+  updatePlayerBarSong();
+
+  var lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
+  var previousSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
+  previousSongNumberCell.html(pauseButtonTemplate);
+  lastSongNumberCell.html(lastSongNumber);
 };
 
 var updatePlayerBarSong = function() {
