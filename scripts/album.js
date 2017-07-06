@@ -43,6 +43,7 @@ var createSongRow = function(songNumber, songName, songLength) {
       currentlyPlayingSongNumber = songNumber;
       currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
     }
+
   };
 
   $row.find('.song-item-number').click(clickHandler);
@@ -70,6 +71,15 @@ var setCurrentAlbum = function(album) {
     var $newRow = createSongRow(i +1, album.songs[i].title, album.songs[i].duration);
     $albumSongList.append($newRow);
   }
+};
+
+var updatePlayerBarSong = function() {
+  var songName = currentSongFromAlbum.title;
+  var artistName = currentAlbum.artist;
+
+  $('currently-playing .song-name').text(songName);
+  $('.currently-playing .artist-name').text(artistName);
+  $('.currently-playing .artist-song-mobile').text(songName + ' - ' + artistName);
 };
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
