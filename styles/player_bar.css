@@ -65,11 +65,11 @@
 }
 
 .player-bar .currently-playing .song-name,
-.player-bar .currently-playgin .artist-song-mobile {
+.player-bar .currently-playing .artist-song-mobile {
   top: 1.1rem;
 }
 
-.player-bar .currently-playgin .artist-name {
+.player-bar .currently-playing .artist-name {
   bottom: 1.1rem;
 }
 
@@ -128,7 +128,10 @@
   cursor: pointer;
   -webkit-transition: all 100ms ease-in-out;
   -moz-transition: all 100ms ease-in-out;
-  transition: all 100ms ease-in-out;
+  transition: width 100ms ease-in-out,
+              height 100ms ease-in-out,
+              margin-top 100ms ease-in-out,
+              margin-left 100ms ease-in-out;
 }
 
 .seek-bar: hover .thumb {
