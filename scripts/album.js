@@ -81,25 +81,25 @@ var setCurrentAlbum = function(album) {
   }
 };
 
-var setSong = function(songNumber) {
+var updateSeekBarWhileSongPlays = function() {
   if(currentSoundFile) {
-    currentSoundFile.stop();
+    currentSoundFile.bind('timeupdate', function(event) {
+      var seekBarFillRatio = this.getTime() / this.getDuration();
+      var $seekBar = $('.seek-control .seek-bar');
+
+      updateSeekPercentage($seekBar, seekBarFillRatio);
+    });
   }
-
-  currentlyPlayingSongNumber = parseInt(songNumber);
-  currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
-  currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
-    formats:['mp3'],
-    preload: true
-  });
-
-  setVolume(currentVolume);
 };
 
-var setVolume = function(volume) {
-  if(currentSoundFile) {
-    currentSoundFile.setVolume(volume);
-  }
+var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
+  var offsetXPercent = seekBarFillRatio * 100;
+  offsetXPercent = Math.max(0, offsetXPercent);
+  offsetXpercent = Math.min(100, offsetXPercent);
+
+  var percentageString = offsetXpercent + '%';
+  $seekBar.find('.fill').width(percentageString);
+  $seekBar.find('.thumb').css({left: percentageString});
 };
 
 var setupSeekBars = function() {
@@ -125,8 +125,35 @@ var setupSeekBars = function() {
     $(document).bind('mouseup.thumb', function(){
       $(document).unbind('mousemove.thumb');
       $(document).unbind('mouseup.thumb');
-    })
-  })
+    });
+  });
+};
+
+var setSong = function(songNumber) {
+  if(currentSoundFile) {
+    currentSoundFile.stop();
+  }
+
+  currentlyPlayingSongNumber = parseInt(songNumber);
+  currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+  currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl, {
+    formats:['mp3'],
+    preload: true
+  });
+
+  setVolume(currentVolume);
+};
+
+var seek = function(time) {
+  if(currentSoundFile) {
+    currentSoundFile.setTime(time);
+  }
+};
+
+var setVolume = function(volume) {
+  if(currentSoundFile) {
+    currentSoundFile.setVolume(volume);
+  }
 };
 
 var getSongNumberCell = function(number) {
@@ -183,15 +210,7 @@ var updatePlayerBarSong = function() {
   $('.main-controls .play-pause').html(playerBarPauseButton);
 };
 
-var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
-  var offsetXPercent = seekBarFillRatio * 100;
-  offsetXPercent = Math.max(0, offsetXPercent);
-  offsetXpercent = Math.min(100, offsetXPercent);
 
-  var percentageString = offsetXpercent + '%';
-  $seekBar.find('.fill').width(percentageString);
-  $seekBar.find('.thumb').css({left: percentageString});
-};
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
