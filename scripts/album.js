@@ -98,8 +98,19 @@ var setSong = function(songNumber) {
 
 var setVolume = function(volume) {
   if(currentSoundFile) {
-    curentSoundFile.setVolume(volume);
+    currentSoundFile.setVolume(volume);
   }
+};
+
+var setupSeekBars = function() {
+  var $seekBars = $('.player-bar .seek-bar');
+
+  $seekBars.click(function(event){
+    var offsetX = event.pageX - $(this).offset().left;
+    var barWidth = $(this).width();
+    var seekBarFillRatio = offsetX / barWidth;
+    updateSeekPercentage($(this), seekBarFillRatio);
+  });
 };
 
 var getSongNumberCell = function(number) {
@@ -159,11 +170,11 @@ var updatePlayerBarSong = function() {
 var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
   var offsetXPercent = seekBarFillRatio * 100;
   offsetXPercent = Math.max(0, offsetXPercent);
-  offsetXpercent = Math.min(100, offsetXpercent);
+  offsetXpercent = Math.min(100, offsetXPercent);
 
   var percentageString = offsetXpercent + '%';
   $seekBar.find('.fill').width(percentageString);
-  $seekBar.find('.thumb').css({left: percentageString;});
+  $seekBar.find('.thumb').css({left: percentageString});
 };
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
@@ -182,6 +193,7 @@ var $nextButton = $('.main-controls .next');
 
 $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
+  setupSeekBars();
   $previousButton.click(previousSong);
   $nextButton.click(nextSong);
 });
