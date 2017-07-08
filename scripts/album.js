@@ -29,7 +29,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 
   var clickHandler = function(event) {
     var songNumber = parseInt($(this).attr('data-song-number'));
-    
+
     var $volumeBar = $('.player-bar .volume')
     $volumeBar.find('.fill').width(currentVolume + '%');
     $volumeBar.find('.thumb').css({left: currentVolume + '%'});
@@ -43,6 +43,7 @@ var createSongRow = function(songNumber, songName, songLength) {
         $('.main-controls .play-pause').html(playerBarPauseButton);
         $(this).html(pauseButtonTemplate);
         currentSoundFile.play();
+        updateSeekBarWhileSongPlays();
       } else {
         $('.main-controls .play-pause').html(playerBarPlayButton);
         $(this).html(playButtonTemplate);
@@ -54,10 +55,9 @@ var createSongRow = function(songNumber, songName, songLength) {
       $(this).html(pauseButtonTemplate);
       setSong(songNumber);
       currentSoundFile.play();
+      updateSeekBarWhileSongPlays();
       updatePlayerBarSong();
     }
-
-
   };
 
   $row.find('.song-item-number').click(clickHandler);
@@ -92,7 +92,9 @@ var updateSeekBarWhileSongPlays = function() {
     currentSoundFile.bind('timeupdate', function(event) {
       var seekBarFillRatio = this.getTime() / this.getDuration();
       var $seekBar = $('.seek-control .seek-bar');
+      var currentTime = this.getTime();
 
+      setCurrentTimeInPlayerBar(currentTime);
       updateSeekPercentage($seekBar, seekBarFillRatio);
     });
   }
@@ -168,6 +170,14 @@ var seek = function(time) {
   }
 };
 
+var setCurrentTimeInPlayerBar = function(currentTime) {
+  $('.seek-control .current-time').text(currentTime);
+};
+
+var setTotalTimeInPlayerBar = function(totalTime) {
+  $('.seek-control .total-time').text(totalTime);
+};
+
 var setVolume = function(volume) {
   if(currentSoundFile) {
     currentSoundFile.setVolume(volume);
@@ -193,6 +203,7 @@ var nextSong = function() {
   var lastSongNumber = currentlyPlayingSongNumber;
   setSong(songIndex + 1);
   currentSoundFile.play();
+  updateSeekBarWhileSongPlays();
   updatePlayerBarSong();
 
   var lastSongNumberCell = getSongNumberCell(lastSongNumber);
@@ -212,6 +223,7 @@ var previousSong = function() {
   var lastSongNumber = currentlyPlayingSongNumber;
   setSong(songIndex + 1);
   currentSoundFile.play();
+  updateSeekBarWhileSongPlays();
   updatePlayerBarSong();
 
   var lastSongNumberCell = getSongNumberCell(lastSongNumber);
