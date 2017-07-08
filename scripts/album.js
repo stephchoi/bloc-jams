@@ -29,6 +29,10 @@ var createSongRow = function(songNumber, songName, songLength) {
 
   var clickHandler = function(event) {
     var songNumber = parseInt($(this).attr('data-song-number'));
+    
+    var $volumeBar = $('.player-bar .volume')
+    $volumeBar.find('.fill').width(currentVolume + '%');
+    $volumeBar.find('.thumb').css({left: currentVolume + '%'});
 
     if (currentlyPlayingSongNumber !== null) {
       var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
@@ -52,6 +56,8 @@ var createSongRow = function(songNumber, songName, songLength) {
       currentSoundFile.play();
       updatePlayerBarSong();
     }
+
+
   };
 
   $row.find('.song-item-number').click(clickHandler);
@@ -221,8 +227,6 @@ var updatePlayerBarSong = function() {
 
   $('.main-controls .play-pause').html(playerBarPauseButton);
 };
-
-
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
