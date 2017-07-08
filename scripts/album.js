@@ -237,6 +237,9 @@ var updatePlayerBarSong = function() {
   $('.currently-playing .artist-name').text(currentAlbum.artist);
   $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.title + ' - ' + currentAlbum.artist);
 
+  var totalTime = currentAlbum.songs[currentlyPlayingSongNumber - 1].duration;
+  setTotalTimeInPlayerBar(totalTime);
+
   $('.main-controls .play-pause').html(playerBarPauseButton);
 };
 
